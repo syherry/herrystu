@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>管理员</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/line.css" rel="stylesheet">
+    <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <link href="css/ternary.css" rel="stylesheet">
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/bootstrap-datetimepicker.min.js"></script>
+    <script src="js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+
+</head>
+
+<body>
+
+    <div id="Container" >
+            <script src="js/canvas-nest.js"></script>
+            <script src="js/followmouse.js"></script>
+            <div id= "Header">
+                <marquee ><span style="font-weight: bolder;font-size: 40px;color: mediumpurple;">毕业生实习追踪系统</span></marquee>
+            </div>
+            <div id = "Content">
+                <div id="Content-left" >
+                    <ul class="nav nav-tabs nav-stacked">
+                        <li class="active">
+                            <a href="#">系统管理员</a>
+                        </li>
+                        <li id="student">
+                            <a href="#">学生账号管理</a>
+                        </li>
+                        <li id="teacher">
+                            <a href="#">教师账号管理</a>
+                        </li>
+                        <li id="class">
+                            <a href="#">班级信息管理</a>
+                        </li>
+                        <li class="myUser">
+
+                            <a id="modal-920444" href="#modal-container-920444" role="button" class="btn" data-toggle="modal">
+                                <span id="myuser"></span>
+                            </a>
+                            <div class="modal fade" id="modal-container-920444" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                            <h4 class="modal-title" id="myModalLabel">
+                                                尊敬的管理员用户
+                                            </h4>
+                                        </div>
+                                        <div id="selectTips" class="modal-body">
+                                            选择您要进行的操作:
+                                        </div>
+                                        <div id="choseTips" class="modal-footer">
+                                            <button id="updatemsg" type="button" class="btn btn-primary" data-dismiss="modal">修改密码</button> <button id="logout" type="button" class="btn btn-primary" data-dismiss="modal">注销登录</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div id="Content-right">
+                </div>
+            </div>
+
+            <div id= "Footer">
+                <center>南阳理工学院</center>
+            </div>
+        </div>
+
+
+</body>
+<script>
+    $(function(){
+        var user = localStorage.getItem("user");
+        var passwd = localStorage.getItem("passwd");
+        var role = localStorage.getItem("role");
+        if (user == null || passwd == null || role !="admin"){
+            localStorage.clear();
+            window.location.href = "loginerror.html";
+        }
+        $("#myuser").text(user);
+    });
+
+    document.getElementById("logout").onclick=function(){
+        localStorage.clear();
+        window.location.href = "login.html";
+    };
+    document.getElementById("updatemsg").onclick=function() {
+        $('#Content-right').load('updatePassword.html');
+    };
+    document.getElementById("teacher").onclick=function() {
+        $('#Content-right').load('uploadspace.html');
+    };
+    document.getElementById("student").onclick=function() {
+        $('#Content-right').load('stuManage.html');
+    };
+    document.getElementById("class").onclick=function() {
+        $('#Content-right').load('showspace.html');
+    };
+
+
+</script>
+</html>
+
+

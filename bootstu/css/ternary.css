@@ -1,0 +1,7 @@
+html,body {width :100%; height:100%; margin: 0 ;}
+#Container {position :relative ; width : 100%; height:100%; }
+#Header {position :relative ; width :100%; height: 10%; background-color: #FFFFFF;}
+#Content {position :relative ; width :100%; height:80%;}
+#Content-left {width :20%; height:100%; float:left;background-color: #FFFFFF;}
+#Content-right {width :80%; height: 100%;float :left ; background-color : #FFFFFF;}
+#Footer {position :relative ;width :100%; height: 10%;background-color : #FFFFFF;}

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/line.css" rel="stylesheet">
+    <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/bootstrap-datetimepicker.min.js"></script>
+    <script src="js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+
+</head>
+<body>
+<div class="container">
+    <div class="row row-centered">
+        <script src="js/canvas-nest.js"></script>
+        <script src="js/followmouse.js"></script>
+        <div class="col-md-3 column"></div>
+        <div class="well col-md-6 col-centered">
+            <form class="form-horizontal center-block" role="form" >
+                <center><legend>毕业生实习追踪系统</legend></center>
+                <center><div class="form-group ">
+                    <label class="col-sm-2 control-label" for="exampleUserName1">用户名</label>
+                    <div  class="col-sm-4 ">
+                        <input class="form-control" id="exampleUserName1" type="text" placeholder="请输入账号"/>
+                    </div>
+                </div></center>
+                <center><div class="form-group ">
+                    <label class="col-sm-2 control-label" for="exampleInputPassword">密码</label>
+                    <div class="col-sm-4">
+                        <input class="form-control" id="exampleInputPassword" type="password" placeholder="请输入密码"/>
+                    </div>
+                </div></center>
+                <center><div class="form-group ">
+                    <label class="col-sm-2 control-label" for="disabledSelect">账号类型</label>
+                    <div class="col-sm-4">
+                        <select id="disabledSelect" class="form-control">
+                            <option value="student">学生</option>
+                            <option value="teacher">老师</option>
+                            <option value="admin">管理员</option>
+                        </select>
+                    </div>
+                </div></center>
+                <center><div class="form-group ">
+                    <label class="col-sm-2 control-label" > </label>
+                    <div class="col-sm-4">
+                        <input class="btn btn-default pull-right" onclick="register()" type="button" value="注册"/>
+                        <input class="btn btn-default pull-right" onclick="login()" type="button" value="登陆"/>
+                    </div>
+                </div></center>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+</body>
+<script>
+    $(function(){
+        var user = localStorage.getItem("user");
+        var passwd = localStorage.getItem("passwd");
+        var role = localStorage.getItem("role");
+        if (user != null || passwd != null || role != null){
+            switch (role) {
+                case "admin" : window.location.href = "admin.html" ;break;
+                case "student" : window.location.href = "student.html" ;break;
+                case "teacher":  window.location.href = "teacher.html" ;break;
+            }
+        }
+    });
+    function register() {
+        window.location.href = "register.html";
+    }
+    function login() {
+        var user = $('#exampleUserName1').val();
+        var passwd = $('#exampleInputPassword').val();
+        var role = $('#disabledSelect').val();
+        $.ajax({
+            type: "post",
+            url: 'http://localhost:8088/lhy/api/login',
+            async: false,
+            dataType: 'json',
+            data:  {
+                "username": user,
+                "passwd": passwd,
+                "role": role
+            },
+            success: function(data) {
+                if (data.msg!=null){
+                    alert(data.msg);
+                }else {
+                    localStorage.setItem("user",data.username);
+                    localStorage.setItem("passwd",data.password);
+                    localStorage.setItem("role",data.role);
+                    if (role == 'admin'){
+                        window.location.href = "admin.html";
+                    }else if (role == 'student'){
+                        window.location.href = "student.html";
+                    }else if (role == 'teacher'){
+                        window.location.href = "teacher.html";
+                    }
+                }
+            },
+            error: function() {
+                alert("与服务器连接断开！");
+            }
+        });
+    }
+</script>
+
+
+</html>
+
+
