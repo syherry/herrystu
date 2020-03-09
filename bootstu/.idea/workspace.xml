@@ -4,8 +4,6 @@
     <list default="true" id="6b7150f9-4c5e-450f-ac6e-e95d8c125ccf" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/stuManage.html" beforeDir="false" afterPath="$PROJECT_DIR$/stuManage.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/uploadspace.html" beforeDir="false" afterPath="$PROJECT_DIR$/uploadspace.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../stumonitor/src/main/java/stu/monitor/stumonitor/dao/UserDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/../stumonitor/src/main/java/stu/monitor/stumonitor/dao/UserDao.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -121,7 +119,8 @@
       <workItem from="1583497859095" duration="13000" />
       <workItem from="1583500073883" duration="48000" />
       <workItem from="1583569085727" duration="15000" />
-      <workItem from="1583644065353" duration="8098000" />
+      <workItem from="1583644065353" duration="8371000" />
+      <workItem from="1583755535485" duration="137000" />
     </task>
     <servers />
   </component>
