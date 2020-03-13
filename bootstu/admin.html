@@ -86,6 +86,7 @@
             window.location.href = "loginerror.html";
         }
         $("#myuser").text(user);
+        $('#Content-right').load('stuManage.html');
     });
 
     document.getElementById("logout").onclick=function(){
@@ -96,13 +97,13 @@
         $('#Content-right').load('updatePassword.html');
     };
     document.getElementById("teacher").onclick=function() {
-        $('#Content-right').load('uploadspace.html');
+        $('#Content-right').load('teachManage.html');
     };
     document.getElementById("student").onclick=function() {
         $('#Content-right').load('stuManage.html');
     };
     document.getElementById("class").onclick=function() {
-        $('#Content-right').load('showspace.html');
+        $('#Content-right').load('classManage.html');
     };
 
 
