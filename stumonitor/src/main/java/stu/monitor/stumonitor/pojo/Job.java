@@ -13,6 +13,16 @@ public class Job {
     private String jobName;
     @Column(nullable = false)
     private String space;
+    @Column(nullable = false)
+    private String className;
+
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
+    }
 
     public long getId() {
         return id;

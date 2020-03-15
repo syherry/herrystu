@@ -6,4 +6,5 @@ import stu.monitor.stumonitor.pojo.User;
 
 public interface ManageService {
     Page<User> findUsersByRole(String role, Pageable pageable);
+    Page<User> findUserByRoleAndUsernameLike(String role,String username,Pageable pageable);
 }

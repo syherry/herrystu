@@ -16,8 +16,6 @@ import java.util.Map;
 public class LoginController {
     @Resource
     private LoginService loginService;
-    @Resource
-    private JobService jobService;
     @RequestMapping("/api/login")
     @ResponseBody
     public  JSON login(@RequestParam Map<String,Object> params){

@@ -5,7 +5,7 @@ import stu.monitor.stumonitor.pojo.User;
 
 
 public interface LoginService {
-    public User findUserAndPasswdAndRole(String username,String password,String role);
-    public void saveUser(User user);
-    public User findUserAndRole(String username,String role);
+     User findUserAndPasswdAndRole(String username,String password,String role);
+     void saveUser(User user);
+     User findUserAndRole(String username,String role);
 }

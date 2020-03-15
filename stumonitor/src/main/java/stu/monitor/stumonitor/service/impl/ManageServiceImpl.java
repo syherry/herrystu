@@ -19,4 +19,9 @@ public class ManageServiceImpl implements ManageService {
     public Page<User> findUsersByRole(String role, Pageable pageable) {
         return userDao.findUsersByRole(role,pageable);
     }
+
+    @Override
+    public Page<User> findUserByRoleAndUsernameLike(String role, String username, Pageable pageable) {
+        return userDao.findUsersByRoleAndUsernameLike(role, username, pageable);
+    }
 }
