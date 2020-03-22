@@ -32,4 +32,14 @@ public class ClassInfoServiceImpl implements ClassInfoService {
     public ClassInfo findByClassNameAndCollegeAndDepartment(String classname, String college, String department) {
         return classInfoDao.findByClassNameAndCollegeAndDepartment(classname,college,department);
     }
+
+    @Override
+    public ClassInfo findByClassName(String classname) {
+        return classInfoDao.findByClassName(classname);
+    }
+
+    @Override
+    public ClassInfo findByInstructor(String instructor) {
+        return classInfoDao.findByInstructor(instructor);
+    }
 }

@@ -20,4 +20,14 @@ public class JobServiceImpl implements JobService {
     public void jobSave(Job job) {
         jobDao.save(job);
     }
+
+    @Override
+    public Job findJobByUserName(String username) {
+        return jobDao.findByUserName(username);
+    }
+
+    @Override
+    public List<Job> findByClassName(String classname) {
+        return jobDao.findByClassName(classname);
+    }
 }

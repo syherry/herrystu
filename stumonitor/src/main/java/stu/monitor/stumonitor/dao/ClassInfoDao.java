@@ -9,4 +9,6 @@ public interface ClassInfoDao extends JpaRepository<ClassInfo, Long> {
     Page<ClassInfo> findClassInfosByClassNameLike(String className, Pageable pageable);
     Page<ClassInfo> findAll(Pageable pageable);
     ClassInfo findByClassNameAndCollegeAndDepartment(String classname,String college,String department);
+    ClassInfo findByClassName(String classname);
+    ClassInfo findByInstructor(String instructor);
 }

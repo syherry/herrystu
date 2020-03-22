@@ -8,5 +8,7 @@ import java.util.List;
 public interface JobDao extends JpaRepository<Job,Long> {
 
     List<Job> findAll();
+    Job findByUserName(String username);
+    List<Job> findByClassName(String classname);
 
 }

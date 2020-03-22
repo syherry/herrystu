@@ -10,10 +10,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import stu.monitor.stumonitor.pojo.ClassInfo;
 import stu.monitor.stumonitor.pojo.MyErrors;
+import stu.monitor.stumonitor.pojo.Teacher;
 import stu.monitor.stumonitor.pojo.User;
 import stu.monitor.stumonitor.service.ClassInfoService;
 import stu.monitor.stumonitor.service.LoginService;
 import stu.monitor.stumonitor.service.ManageService;
+import stu.monitor.stumonitor.service.TeacherService;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -26,6 +28,8 @@ public class AdminManageController {
     ManageService manageService;
     @Resource
     LoginService loginService;
+    @Resource
+    TeacherService teacherService;
     @Resource
     ClassInfoService classInfoService;
     @RequestMapping("/api/admin/findUsersByRole")

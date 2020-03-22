@@ -24,45 +24,68 @@
 
 </body>
 <script>
-
-    var map = new AMap.Map('thisMap',{resizeEnable: true,zoom:4});
-    var markers = []; //province见Demo引用的JS文件
-    /*for (var i = 0; i < provinces.length; i += 1) {
-        var marker;
-        marker = new AMap.Marker({
-            position: provinces[i].center.split(','),
-            title: provinces[i].name,
-            map: map
+    $(function () {
+        var user = localStorage.getItem("user");
+        var map = new AMap.Map('thisMap',{resizeEnable: true,zoom:4});
+        var markers = []; //province见Demo引用的JS文件
+        /*for (var i = 0; i < provinces.length; i += 1) {
+            var marker;
+            marker = new AMap.Marker({
+                position: provinces[i].center.split(','),
+                title: provinces[i].name,
+                map: map
+            });
+            markers.push(marker);
+        }*/
+        $.ajax({
+            type: "post",
+            url: 'http://localhost:8088/lhy/api/teacher/showspace',
+            async: false,
+            dataType: 'json',
+            data:  {
+                "username": user
+            },
+            success: function(data) {
+                if (data.msg!=null){
+                    switch (data.msg) {
+                        case "error":
+                            alert("登录信息错乱，请重新登陆");
+                            localStorage.clear();
+                            window.location.href = "loginerror.html";
+                            break;
+                        case "unexist":
+                            alert("当前帐号绑定班级信息错误，请绑定班级信息！");
+                            window.location.href = "uploadJob.html";
+                            break;
+                        default :
+                            alert(data.msg);
+                            break;
+                    }
+                }else {
+                    $(data).each(function (index){
+                        var marker;
+                        marker = new AMap.Marker({
+                            position: data[index].coordinate.split(','),
+                            title: data[index].stuName,
+                            map: map
+                        });
+                        markers.push(marker);
+                        }
+                    );
+                }
+            },
+            error: function() {
+                alert("与服务器连接断开！");
+            }
         });
-        markers.push(marker);
-    }*/
-    var marker;
-    marker = new AMap.Marker({
-        position: [116.39, 39.9],
-        title: "秦宇罡",
-        map: map
-    });
-    markers.push(marker);
-    var marker;
-    marker = new AMap.Marker({
-        position: [120.87639,31.460001],
-        title: "李海洋",
-        map: map
-    });
-    markers.push(marker);
-    var marker;
-    marker = new AMap.Marker({
-        position: [86.58606,30.47841],
-        title: "不知名",
-        map: map
-    });
-    markers.push(marker);
-    map.setFitView();
-    $(document).read($(function () {
-        var div=$("thisMap");
-        div.animate({left:'100px'},"slow")
-        div.animate({size:'3em'},"slow")
+        map.setFitView();
+        $(document).read($(function () {
+            var div=$("thisMap");
+            div.animate({left:'100px'},"slow")
+            div.animate({size:'3em'},"slow")
         }));
+    });
+
 </script>
 
 </html>

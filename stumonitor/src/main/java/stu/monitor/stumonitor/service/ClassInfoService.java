@@ -9,4 +9,6 @@ public interface ClassInfoService {
     void saveClassInfo(ClassInfo classInfo);
     Page<ClassInfo> findall( Pageable pageable);
     ClassInfo findByClassNameAndCollegeAndDepartment(String classname,String college,String department);
+    ClassInfo findByClassName(String classname);
+    ClassInfo findByInstructor(String instructor);
 }

@@ -40,19 +40,19 @@
         }
     });
     var map = new AMap.Map("thisMap", {
-        resizeEnable: true
+        resizeEnable: true,
+        zoom: 13,
     });
 
     var geocoder = new AMap.Geocoder({
         city: "010", //城市设为北京，默认：“全国”
-        radius: 1000 //范围，默认：500
+        radius: 500 //范围，默认：500
     });
     var marker = new AMap.Marker();
     function regeoCode() {
         var lnglat  = document.getElementById('lnglat').value.split(',');
         map.add(marker);
         marker.setPosition(lnglat);
-
         geocoder.getAddress(lnglat, function(status, result) {
             if (status === 'complete'&&result.regeocode) {
                 var address = result.regeocode.formattedAddress;
@@ -67,14 +67,6 @@
         document.getElementById('lnglat').value = e.lnglat;
         regeoCode();
     });
-    document.getElementById("regeo").onclick = function(){
-        if (document.getElementById('address').value == "") {
-            alert('还没有添加地址');
-        }else {
-            alert('添加地址成功!');
-
-        }
-    };
     document.getElementById('lnglat').onkeydown = function(e) {
         if (e.keyCode === 13) {
             regeoCode();
@@ -82,6 +74,51 @@
         }
         return true;
     };
+    document.getElementById("regeo").onclick = function(){
+        if (document.getElementById('address').value == "") {
+            alert('还没有添加地址');
+        }else {
+            var address = $('#address').val()
+            var coordinate = $('#lnglat').val();
+            var user = localStorage.getItem("user");
+            $.ajax({
+                type: "post",
+                url: 'http://localhost:8088/lhy/api/student/uploadspace',
+                async: false,
+                dataType: 'json',
+                data:  {
+                    "address": address,
+                    "coordinate": coordinate,
+                    "username": user
+                },
+                success: function(data) {
+                    if (data.msg!=null){
+                        switch (data.msg) {
+                            case "error":
+                                alert("登录信息错乱，请重新登陆");
+                                localStorage.clear();
+                                window.location.href = "loginerror.html";
+                                break;
+                            case "unexist":
+                                alert("当前帐号绑定班级信息错误，请绑定班级信息！");
+                                window.location.href = "uploadJob.html";
+                                break;
+                            default :
+                                alert(data.msg);
+                                break;
+                        }
+                    }else {
+                        alert("上传位置:"+data.address+"成功");
+                    }
+                },
+                error: function() {
+                    alert("与服务器连接断开！");
+                }
+            });
+
+        }
+    };
+
 </script>
 </html>
 
