@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>教师账号</title>
+    <title>请绑定班级信息</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/line.css" rel="stylesheet">
     <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet">
@@ -11,11 +11,8 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/bootstrap-datetimepicker.min.js"></script>
     <script src="js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
-
 </head>
-
 <body>
-
 <div id="Container" >
     <script src="js/canvas-nest.js"></script>
     <script src="js/followmouse.js"></script>
@@ -26,16 +23,9 @@
         <div id="Content-left" >
             <ul class="nav nav-tabs nav-stacked">
                 <li class="active">
-                    <a href="#">教师帐号</a>
-                </li>
-                <li id="index">
-                    <a href="#">首页</a>
-                </li>
-                <li id="studentshow">
-                    <a href="#">学生位置总览</a>
+                    <a href="#">请绑定班级信息</a>
                 </li>
                 <li class="myUser">
-
                     <a id="modal-920444" href="#modal-container-920444" role="button" class="btn" data-toggle="modal">
                         <span id="myuser"></span>
                     </a>
@@ -45,7 +35,7 @@
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                     <h4 class="modal-title" id="myModalLabel">
-                                        尊敬的辅导员用户
+                                        尊敬的教师用户
                                     </h4>
                                 </div>
                                 <div id="selectTips" class="modal-body">
@@ -55,14 +45,41 @@
                                     <button id="updatemsg" type="button" class="btn btn-primary" data-dismiss="modal">修改密码</button> <button id="logout" type="button" class="btn btn-primary" data-dismiss="modal">注销登录</button>
                                 </div>
                             </div>
-
                         </div>
-
                     </div>
                 </li>
             </ul>
         </div>
         <div id="Content-right">
+            <form class="form-horizontal" role="form">
+                <div class="form-group">
+                    <label for="jobName" class="col-sm-2 control-label" >职称</label>
+                    <div class="col-sm-6">
+                        <span class="glyphicon  form-control-feedback"></span>
+                        <input type="text" class="form-control" id="jobName" placeholder="请输入职称"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="className" class="col-sm-2 control-label" >班级</label>
+                    <div class="col-sm-6">
+                        <span class="glyphicon  form-control-feedback"></span>
+                        <input type="text" class="form-control" id="className" placeholder="请输入中文的班级名称(如:云计算三班)"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="teaName" class="col-sm-2 control-label" >姓名</label>
+                    <div class="col-sm-6">
+                        <span class="glyphicon  form-control-feedback"></span>
+                        <input type="text" class="form-control" id="teaName" placeholder="请输入您的姓名"/>
+                    </div>
+                </div>
+                <input type="hidden" class="form-control" id="teauserName" placeholder="teauserName"/>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="button" class="btn btn-default"  id="Jobupdate">确认</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -70,8 +87,6 @@
         <center>南阳理工学院</center>
     </div>
 </div>
-
-
 </body>
 <script>
     $(function(){
@@ -83,38 +98,7 @@
             window.location.href = "loginerror.html";
         }
         $("#myuser").text(user);
-        $.ajax({
-            type: "post",
-            url: 'http://localhost:8088/lhy/api/teacher/findByUserName',
-            async: false,
-            dataType: 'json',
-            data:  {
-                "username": user
-            },
-            success: function(data) {
-                if (data.msg!=null){
-                    switch (data.msg) {
-                        case "error":
-                            alert("登录信息错乱，请重新登陆");
-                            localStorage.clear();
-                            window.location.href = "loginerror.html";
-                            break;
-                        case "unexist":
-                            alert("当前帐号绑定班级信息错误，请绑定班级信息！");
-                            window.location.href = "uploadClass.html";
-                            break;
-                        default :
-                            alert(data.msg);
-                            break;
-                    }
-                }else {
-                    alert(data.stuName);
-                }
-            },
-            error: function() {
-                alert("与服务器连接断开！");
-            }
-        });
+        $("#teauserName").val(user);
     });
 
     document.getElementById("logout").onclick=function(){
@@ -124,16 +108,51 @@
     document.getElementById("updatemsg").onclick=function() {
         $('#Content-right').load('updatePassword.html');
     };
+    document.getElementById("Jobupdate").onclick=function() {
 
-    document.getElementById("studentshow").onclick=function() {
-        $('#Content-right').load('showspace.html');
+        var user = $("#teauserName").val();
+        var jobName = $("#jobName").val();
+        var className = $("#className").val();
+        var teaName = $("#teaName").val();
+        $.ajax({
+            type: "post",
+            url: 'http://localhost:8088/lhy/api/teacher/uploadClass',
+            async: false,
+            dataType: 'json',
+            data:  {
+                "username": user,
+                "jobName": jobName,
+                "className": className,
+                "teaName": teaName
+
+            },
+            success: function(data) {
+                if (data.msg!=null){
+                    switch (data.msg) {
+                        case "error":
+                            alert("登录信息错乱，请重新登陆");
+                            localStorage.clear();
+                            window.location.href = "loginerror.html";
+                            break;
+                        case "exist":
+                            alert("已经绑定了班级信息！");
+                            window.location.href = "student.html";
+                            break;
+                        default :
+                            alert(data.msg);
+                            break;
+                    }
+                }else {
+                    window.location.href = "teacher.html";
+                }
+            },
+            error: function() {
+                alert("与服务器连接断开！");
+            }
+        });
     };
-    document.getElementById("index").onclick=function() {
-        $('#Content-right').load('thisClass.html');
-    };
+
 
 
 </script>
 </html>
-
-

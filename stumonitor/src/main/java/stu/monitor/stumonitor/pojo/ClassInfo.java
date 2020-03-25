@@ -13,7 +13,7 @@ public class ClassInfo {
     private String college;
     @Column(nullable = false)
     private String department;
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String instructor;
 
     public long getId() {
