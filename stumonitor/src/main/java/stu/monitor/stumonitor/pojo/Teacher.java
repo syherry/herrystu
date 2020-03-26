@@ -11,7 +11,7 @@ public class Teacher {
     private String teacherName;
     @Column(nullable = false)
     private String userName;
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String className;
 
     public String getClassName() {

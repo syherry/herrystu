@@ -20,4 +20,9 @@ public class TeacherServiceImpl implements TeacherService {
     public void save(Teacher teacher) {
         teacherDao.save(teacher);
     }
+
+    @Override
+    public Teacher findByTeacherName(String teaName) {
+        return teacherDao.findByTeacherName(teaName);
+    }
 }

@@ -134,11 +134,22 @@ public class AdminManageController {
             jsonObject = (JSONObject) JSON.toJSON(new MyErrors("修改出现异常！"));
             return jsonObject;
         }
-        findClass.setClassName(classname);
-        findClass.setCollege(college);
-        findClass.setDepartment(department);
+        Teacher teacher = teacherService.findByTeacherName(instructor);
+        if ( teacher == null ){
+            jsonObject = (JSONObject) JSON.toJSON(new MyErrors("输入教师名称没有绑定账号，清联系教师绑定！"));
+            return jsonObject;
+        }
+        Teacher bakTeacher = teacherService.findByTeacherName(findClass.getInstructor());
+        if (bakTeacher == null ){
+            jsonObject = (JSONObject) JSON.toJSON(new MyErrors("修改出现异常！"));
+            return jsonObject;
+        }
+        bakTeacher.setClassName("");
+        teacher.setClassName(findClass.getClassName());
         findClass.setInstructor(instructor);
         classInfoService.saveClassInfo(findClass);
+        teacherService.save(teacher);
+        teacherService.save(bakTeacher);
         jsonObject = (JSONObject)JSON.toJSON(findClass);
         return jsonObject;
     }

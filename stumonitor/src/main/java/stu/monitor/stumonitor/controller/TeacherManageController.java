@@ -72,9 +72,9 @@ public class TeacherManageController {
         String teaName = params.get("teaName") == null ? "" : params.get("teaName").toString();
         if (username.equals("") || loginService.findbyUsernam(username) == null){
             return (JSONObject) JSON.toJSON(new MyErrors("error"));
-        }else if(teacherService.findByUserName(username)!=null){
+        }/*else if(teacherService.findByUserName(username)!=null){
             return (JSONObject) JSON.toJSON(new MyErrors("exist"));
-        }
+        }*/
         if (jobName.equals("")){
             return (JSONObject) JSON.toJSON(new MyErrors("请输入职称"));
         }
@@ -88,10 +88,20 @@ public class TeacherManageController {
         if ( classInfo == null){
             return (JSONObject) JSON.toJSON(new MyErrors("输入的班级不存在"));
         }
+        Teacher bakteacher = teacherService.findByUserName(username);
+        if (bakteacher!=null){
+            bakteacher.setUserName(username);
+            bakteacher.setClassName(className);
+            bakteacher.setTeacherName(teaName);
+            classInfo.setInstructor(teaName);
+            bakteacher.setTitle(jobName);
+            classInfoService.saveClassInfo(classInfo);
+            teacherService.save(bakteacher);
+            return (JSONObject) JSON.toJSON(bakteacher);
+        }
         Teacher teacher = new Teacher();
         teacher.setUserName(username);
         teacher.setClassName(className);
-        classInfo.setClassName(className);
         teacher.setTeacherName(teaName);
         classInfo.setInstructor(teaName);
         teacher.setTitle(jobName);
