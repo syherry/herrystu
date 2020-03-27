@@ -1,5 +1,7 @@
 package stu.monitor.stumonitor.service.impl;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import stu.monitor.stumonitor.dao.JobDao;
 import stu.monitor.stumonitor.pojo.Job;
@@ -29,5 +31,15 @@ public class JobServiceImpl implements JobService {
     @Override
     public List<Job> findByClassName(String classname) {
         return jobDao.findByClassName(classname);
+    }
+
+    @Override
+    public Page<Job> findJobsByClassNameAndStuNameLike(String classname, String stuname, Pageable pageable) {
+        return jobDao.findJobsByClassNameAndStuNameLike( classname,  stuname,  pageable);
+    }
+
+    @Override
+    public Page<Job> findJobsByClassNameLike(String classname, Pageable pageable) {
+        return jobDao.findJobsByClassNameLike(classname,pageable);
     }
 }

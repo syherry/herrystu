@@ -3,6 +3,9 @@ package stu.monitor.stumonitor.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import stu.monitor.stumonitor.dao.ClassInfoDao;
 import stu.monitor.stumonitor.pojo.ClassInfo;
@@ -108,5 +111,30 @@ public class TeacherManageController {
         classInfoService.saveClassInfo(classInfo);
         teacherService.save(teacher);
         return (JSONObject) JSON.toJSON(teacher);
+    }
+
+    @RequestMapping("/api/teacher/findStudent")
+    @ResponseBody
+    public JSON findStudent(@RequestParam Map<String,Object> params){
+        int page = params.get("page") == null ? 0 : Integer.valueOf(params.get("page").toString());
+        int size = params.get("size") == null ? 10 : Integer.valueOf(params.get("size").toString());
+        String stuname = params.get("stuname") == null ? "" : params.get("stuname").toString();
+        String teacheruser = params.get("teacheruser") == null ? "" : params.get("teacheruser").toString();
+        JSONObject jsonObject;
+        Pageable pageable = PageRequest.of(page,size);
+        Teacher teacher = teacherService.findByUserName(teacheruser);
+        if (teacher == null||teacher.getClassName().equals("")||teacher.getClassName() == null){
+            return (JSONObject) JSON.toJSON(new MyErrors("查询出现异常，请联系管理员查看绑定班级信息"));
+        }
+        if (stuname.equals("")){
+            Page<Job> userPage = jobService.findJobsByClassNameLike("%"+teacher.getClassName()+"%",pageable);
+            jsonObject = (JSONObject) JSON.toJSON(userPage);
+            return jsonObject;
+        }else{
+            stuname = "%" + stuname + "%";
+        }
+        Page<Job> userPage = jobService.findJobsByClassNameAndStuNameLike(teacher.getClassName(),stuname,pageable);
+        jsonObject = (JSONObject) JSON.toJSON(userPage);
+        return jsonObject;
     }
 }

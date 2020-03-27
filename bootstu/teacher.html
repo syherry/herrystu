@@ -31,8 +31,14 @@
                 <li id="index">
                     <a href="#">首页</a>
                 </li>
+                <li id="stusearch">
+                    <a href="#">学生信息查询</a>
+                </li>
                 <li id="studentshow">
                     <a href="#">学生位置总览</a>
+                </li>
+                <li id="publish">
+                    <a href="#">发布任务</a>
                 </li>
                 <li class="myUser">
 
@@ -83,6 +89,7 @@
             window.location.href = "loginerror.html";
         }
         $("#myuser").text(user);
+        $('#Content-right').load('thisClass.html');
         $.ajax({
             type: "post",
             url: 'http://localhost:8088/lhy/api/teacher/findByUserName',
@@ -128,10 +135,12 @@
     document.getElementById("studentshow").onclick=function() {
         $('#Content-right').load('showspace.html');
     };
-    document.getElementById("index").onclick=function() {
+    document.getElementById("stusearch").onclick=function() {
         $('#Content-right').load('thisClass.html');
     };
-
+    document.getElementById("publish").onclick=function() {
+        $('#Content-right').load('publishTask.html');
+    };
 
 </script>
 </html>

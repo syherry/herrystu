@@ -17,76 +17,10 @@
 
 <form class="navbar-form navbar-left" role="search">
     <div class="form-group">
-        <input id="searchusername" type="text" class="form-control" placeholder="输入用户名"/>
-    </div>
-    <div class="form-group ">
-        <div class="col-sm-2">
-            <select id="searchrole" class="form-control">
-                <option value="student">学生</option>
-                <option value="teacher">老师</option>
-                <option value="admin">管理员</option>
-            </select>
-        </div>
+        <input id="searchusername" type="text" class="form-control" placeholder="输入姓名"/>
     </div>
     <button type="button" class="btn btn-default btn-sm" onclick="savesearch(0,10)">
         <span class="glyphicon glyphicon-search" aria-hidden="true"></span>查询
-    </button>
-    <button type="button" class="btn btn-default btn-sm" href="#saveinput" data-toggle="modal">
-        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
-    </button>
-    <div class="modal fade bs-example-modal-lg" id="saveinput" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title" id="myModalLabel">
-                        请输入新增的信息
-                    </h4>
-                </div>
-                <div class="modal-body">
-                    用户名:<input class="form-control" id="exampleUserName1" type="text" placeholder="请输入账号"/><br/>
-                    密码:<input class="form-control" id="exampleInputPassword" type="password" placeholder="请输入密码"/><br/>
-                    账号类型:
-                    <select id="disabledSelect" class="form-control">
-                        <option value="student">学生</option>
-                        <option value="teacher">老师</option>
-                        <option value="admin">管理员</option>
-                    </select><br/>
-                </div>
-                <div id="choseTips" class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="register()">确认</button> <button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <button type="button" class="btn btn-default btn-sm" onclick="saveupdate()">
-        <span class="glyphicon glyphicon-pencil" aria-hidden="true" ></span>修改
-    </button>
-    <div class="modal fade bs-example-modal-lg" id="update" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title" id="supdateModalLabel">
-                        请输入修改的信息
-                    </h4>
-                </div>
-                <div class="modal-body">
-                    新密码: <input type="password" class="form-control" id="inputPassword2" placeholder="请输入新密码"/>
-                    确认密码:<input type="password" class="form-control" id="inputPassword3" placeholder="请确认新密码"/>
-                    <input type="hidden" id="updateUsername"/>
-                    <input type="hidden" id="updatepassword"/>
-                    <input type="hidden" id="updaterole"/>
-                </div>
-                <div id="supdatechoseTips" class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="updateMessage()">确认</button> <button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <button type="button" class="btn btn-default btn-sm"  onclick="saveinit()">
-        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>重置
     </button>
 </form>
 
@@ -94,9 +28,13 @@
     <thead>
     <tr class="success">
         <th>编号</th>
-        <th>用户名</th>
-        <th>密码</th>
-        <th>角色</th>
+        <th>工作地址</th>
+        <th>班级</th>
+        <th>公司名称</th>
+        <th>坐标位置</th>
+        <th>实习岗位</th>
+        <th>学生姓名</th>
+        <th>使用账号</th>
     </tr>
     </thead>
     <tbody>
@@ -247,178 +185,43 @@
 
     };
 
-    function saveupdate() {
-        var users=[];
-        var user;
-        $("input:checked").each(function(){
-            if ($(this).attr("name")=="checkAll") {
-                return true;
-            }
-            var id = $(this).parents('tr').children().eq(1).html();
-            var username = $(this).parents('tr').children().eq(2).html();
-            var password = $(this).parents('tr').children().eq(3).html();
-            var role = $(this).parents('tr').children().eq(4).html();
-            user = {
-                "id":id,
-                "username":username,
-                "password":password,
-                "role":role
-            }
-            users.push(user)
-        });
-        if (users.length == 0 ||users.length >1) {
-            alert("请选择一项！");
-        }else {
 
-            $("#updateUsername").val(users[0].username);
-            $("#updatepassword").val(users[0].password);
-            $("#updaterole").val(users[0].role);
-            $('#update').modal('show');
-        }
-    };
-    function saveinit() {
-        var users=[];
-        var user;
-        var page = $('#thisPage').text();
-        $("input:checked").each(function(){
-            if ($(this).attr("name")=="checkAll") {
-                return true;
-            }
-            var id = $(this).parents('tr').children().eq(1).html();
-            var username = $(this).parents('tr').children().eq(2).html();
-            var password = $(this).parents('tr').children().eq(3).html();
-            var role = $(this).parents('tr').children().eq(4).html();
-            user = {
-                "id":id,
-                "username":username,
-                "password":password,
-                "role":role
-            }
-            users.push(user)
-        });
-        if (users.length == 0) {
-            alert("请至少选择一项！");
-        }else {
 
-            var list=JSON.stringify(users);
-            $.ajax({
-                type: "post",
-                url: 'http://localhost:8088/lhy/api/admin/saveinit',
-                async: false,
-                dataType: 'json',
-                data:  {
-                    "users" :list
-                },
-                success: function(data) {
-                    if (data.msg!=null){
-                        alert(data.msg);
-                    }else {
-                        alert("初始化成功！");
-                    }
-                    savesearch(page.valueOf()-1,10);
-                },
-                error: function() {
-                    alert("与服务器连接断开！");
-                }
-            });
-        }
-    };
     function savesearch(page,size) {
         var username = $('#searchusername').val();
-        var role = $('#searchrole').val();
+        var teacheruser = localStorage.getItem("user");
         $.ajax({
             type: "post",
-            url: 'http://localhost:8088/lhy/api/admin/findUsersByRole',
+            url: 'http://localhost:8088/lhy/api/teacher/findStudent',
             async: false,
             dataType: 'json',
             data:  {
-                "username": username,
-                "role": role,
+                "stuname": username,
+                "teacheruser":teacheruser,
                 "page":page,
                 "size":size
             },
             success: function(data) {
-                var obj=eval(data.content);
-                var tbody=$('<tbody></tbody>');
-                $(obj).each(function (index){
-                    var val=obj[index];
-                    var tr=$('<tr></tr>');
-                    tr.append('<td>'+ val.id + '</td>' + '<td>'+ val.username + '</td>' +'<td>'+ val.password + '</td>'+'<td>'+ val.role + '</td>');
-                    tbody.append(tr);
-                });
-                $('#mytable tbody').replaceWith(tbody);
-                initTableCheckbox();
-                goPage(data.number,data.size,data.totalElements,data.totalPages);
+                if (data.msg!=null){
+                    alert(data.msg);
+                } else {
+                    var obj=eval(data.content);
+                    var tbody=$('<tbody></tbody>');
+                    $(obj).each(function (index){
+                        var val=obj[index];
+                        var tr=$('<tr></tr>');
+                        tr.append('<td>'+ val.id + '</td>' + '<td>'+ val.address + '</td>' +'<td>'+ val.className + '</td>'+'<td>'+ val.company + '</td>'+'<td>'+ val.coordinate + '</td>'+'<td>'+ val.jobName + '</td>'+'<td>'+ val.stuName + '</td>'+'<td>'+ val.userName + '</td>');
+                        tbody.append(tr);
+                    });
+                    $('#mytable tbody').replaceWith(tbody);
+                    initTableCheckbox();
+                    goPage(data.number,data.size,data.totalElements,data.totalPages);
+                }
             },
             error: function() {
                 alert("与服务器连接断开！");
             }
         });
     };
-    function register() {
-        var user = $('#exampleUserName1').val();
-        var passwd = $('#exampleInputPassword').val();
-        var role = $('#disabledSelect').val();
-        var page = $('#thisPage').text();
-        $.ajax({
-            type: "post",
-            url: 'http://localhost:8088/lhy/api/register',
-            async: false,
-            dataType: 'json',
-            data:  {
-                "username": user,
-                "passwd": passwd,
-                "role": role
-            },
-            success: function(data) {
-                if (data.msg!=null){
-                    alert(data.msg);
-                }else {
-                    alert("注册成功!");
-
-                }
-                savesearch(page.valueOf()-1,10);
-            },
-            error: function() {
-                alert("与服务器连接断开！");
-            }
-        });
-    }
-    function updateMessage() {
-        var inputPassword2 = $('#inputPassword2').val();
-        var inputPassword3 = $('#inputPassword3').val();
-        var user = $("#updateUsername").val();
-        var passwd = $("#updatepassword").val();
-        var role = $("#updaterole").val();
-        var page = $('#thisPage').text();
-        if (inputPassword2 != inputPassword3){
-            alert("两次密码输入不同!")
-        }else {
-            $.ajax({
-                type: "post",
-                url: 'http://localhost:8088/lhy/api/updatePasswd',
-                async: false,
-                dataType: 'json',
-                data:  {
-                    "username": user,
-                    "passwd": passwd,
-                    "role": role,
-                    "inputPassword":inputPassword3
-                },
-                success: function(data) {
-                    if (data.msg!=null){
-                        alert(data.msg);
-                    }else {
-                        alert("修改成功!");
-                    }
-                    savesearch(page.valueOf()-1,10);
-                },error: function () {
-                    alert("与服务器连接失败！")
-                }
-            });
-
-        }
-
-    }
 </script>
 </html>
