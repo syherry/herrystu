@@ -57,6 +57,9 @@
                             alert("当前帐号绑定班级信息错误，请绑定班级信息！");
                             window.location.href = "uploadClass.html";
                             break;
+                        case "warn":
+                            alert("当前帐号个人信息数据未完善，请您及时完善个人信息！");
+                            break;
                         default :
                             alert(data.msg);
                             break;

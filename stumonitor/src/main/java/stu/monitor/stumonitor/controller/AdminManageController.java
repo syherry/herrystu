@@ -108,12 +108,26 @@ public class AdminManageController {
             jsonObject = (JSONObject) JSON.toJSON(new MyErrors("当前班级已经存在！"));
             return jsonObject;
         }
+        Teacher teacher = teacherService.findByUserName(instructor);
+        User user = loginService.findbyUsernam(instructor);
+        if (user == null ||!"teacher".equals(user.getRole())){
+            jsonObject = (JSONObject) JSON.toJSON(new MyErrors("输入教师的工号不存在！"));
+            return jsonObject;
+        }
+        if (teacher == null){
+            teacher = new Teacher();
+            teacher.setClassName(classname);
+            teacher.setUserName(instructor);
+        }else {
+            teacher.setClassName(classname);
+        }
         ClassInfo classInfo = new ClassInfo();
         classInfo.setClassName(classname);
         classInfo.setCollege(college);
         classInfo.setDepartment(department);
         classInfo.setInstructor(instructor);
         classInfoService.saveClassInfo(classInfo);
+        teacherService.save(teacher);
         jsonObject = (JSONObject)JSON.toJSON(classInfo);
         return jsonObject;
     }
@@ -134,18 +148,29 @@ public class AdminManageController {
             jsonObject = (JSONObject) JSON.toJSON(new MyErrors("修改出现异常！"));
             return jsonObject;
         }
-        Teacher teacher = teacherService.findByTeacherName(instructor);
-        if ( teacher == null ){
-            jsonObject = (JSONObject) JSON.toJSON(new MyErrors("输入教师名称没有绑定账号，清联系教师绑定！"));
+        Teacher teacher = teacherService.findByUserName(instructor);
+        User user = loginService.findbyUsernam(instructor);
+        if (user == null ||!"teacher".equals(user.getRole())){
+            jsonObject = (JSONObject) JSON.toJSON(new MyErrors("输入教师的工号不存在！"));
             return jsonObject;
         }
-        Teacher bakTeacher = teacherService.findByTeacherName(findClass.getInstructor());
+        if (teacher == null){
+            teacher = new Teacher();
+            teacher.setClassName(findClass.getClassName());
+            teacher.setUserName(instructor);
+        }else {
+            teacher.setClassName(findClass.getClassName());
+        }
+        Teacher bakTeacher = teacherService.findByUserName(findClass.getInstructor());
         if (bakTeacher == null ){
             jsonObject = (JSONObject) JSON.toJSON(new MyErrors("修改出现异常！"));
             return jsonObject;
         }
+        if (bakTeacher.getUserName().equals(instructor)){
+            jsonObject = (JSONObject) JSON.toJSON(new MyErrors("未做出修改！"));
+            return jsonObject;
+        }
         bakTeacher.setClassName("");
-        teacher.setClassName(findClass.getClassName());
         findClass.setInstructor(instructor);
         classInfoService.saveClassInfo(findClass);
         teacherService.save(teacher);

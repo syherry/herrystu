@@ -7,12 +7,17 @@ public class Teacher {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String teacherName;
     @Column(nullable = false)
     private String userName;
     @Column(nullable = true)
     private String className;
+    @Column(nullable = true)
+    private String title;
+
+    public Teacher() {
+    }
 
     public String getClassName() {
         return className;
@@ -22,7 +27,7 @@ public class Teacher {
         this.className = className;
     }
 
-    private String title;
+
 
     public long getId() {
         return id;

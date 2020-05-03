@@ -28,9 +28,6 @@
                 <li class="active">
                     <a href="#">教师帐号</a>
                 </li>
-                <li id="index">
-                    <a href="#">首页</a>
-                </li>
                 <li id="stusearch">
                     <a href="#">学生信息查询</a>
                 </li>
@@ -40,8 +37,13 @@
                 <li id="publish">
                     <a href="#">发布任务</a>
                 </li>
+                <li id="taskInfo">
+                    <a href="#">任务执行情况</a>
+                </li>
+                <li id="updateteacherInfo">
+                    <a href="#">更新个人信息</a>
+                </li>
                 <li class="myUser">
-
                     <a id="modal-920444" href="#modal-container-920444" role="button" class="btn" data-toggle="modal">
                         <span id="myuser"></span>
                     </a>
@@ -110,12 +112,16 @@
                             alert("当前帐号绑定班级信息错误，请绑定班级信息！");
                             window.location.href = "uploadClass.html";
                             break;
+                        case "warn":
+                            alert("当前帐号个人信息数据未完善，请您及时完善个人信息！");
+                            break;
+
                         default :
                             alert(data.msg);
                             break;
                     }
                 }else {
-                    alert(data.stuName);
+                    alert(data.teacherName);
                 }
             },
             error: function() {
@@ -140,6 +146,12 @@
     };
     document.getElementById("publish").onclick=function() {
         $('#Content-right').load('publishTask.html');
+    };
+    document.getElementById("taskInfo").onclick=function() {
+        $('#Content-right').load('taskInfo.html');
+    };
+    document.getElementById("updateteacherInfo").onclick=function() {
+        $('#Content-right').load('updateteacherInfo.html');
     };
 
 </script>

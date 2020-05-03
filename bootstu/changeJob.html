@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>学生账号</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/line.css" rel="stylesheet">
+    <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <link href="css/ternary.css" rel="stylesheet">
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/bootstrap-datetimepicker.min.js"></script>
+    <script src="js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+
+</head>
+
+<body>
+        <form class="form-horizontal" role="form">
+            <div class="form-group">
+                <label for="company" class="col-sm-2 control-label" >公司</label>
+                <div class="col-sm-6">
+                    <span class="glyphicon  form-control-feedback"></span>
+                    <input type="text" class="form-control" id="company" placeholder="请输入公司名称"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="jobName" class="col-sm-2 control-label" >岗位</label>
+                <div class="col-sm-6">
+                    <span class="glyphicon  form-control-feedback"></span>
+                    <input type="text" class="form-control" id="jobName" placeholder="请输入岗位名称"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="className" class="col-sm-2 control-label" >班级</label>
+                <div class="col-sm-6">
+                    <span class="glyphicon  form-control-feedback"></span>
+                    <input type="text" class="form-control" id="className" placeholder="请输入中文的班级名称(如:云计算三班)"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="stuName" class="col-sm-2 control-label" >姓名</label>
+                <div class="col-sm-6">
+                    <span class="glyphicon  form-control-feedback"></span>
+                    <input type="text" class="form-control" id="stuName" placeholder="请输入您的姓名"/>
+                </div>
+            </div>
+            <input type="hidden" class="form-control" id="stuuserName" placeholder="stuuserName"/>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="button" class="btn btn-default"  id="Jobupdate">确认</button>
+                </div>
+            </div>
+        </form>
+
+</body>
+<script>
+    $(function(){
+        var user = localStorage.getItem("user");
+        $("#stuuserName").val(user);
+        $.ajax({
+            type: "post",
+            url: 'http://localhost:8088/lhy/api/student/findJob',
+            async: false,
+            dataType: 'json',
+            data:  {
+                "username": user
+            },
+            success: function(data) {
+                if (data.msg!=null){
+                    switch (data.msg) {
+                        case "error":
+                            alert("登录信息错乱，请重新登陆");
+                            localStorage.clear();
+                            window.location.href = "loginerror.html";
+                            break;
+                        case "unexist":
+                            alert("当前帐号没有绑定工作信息，请先绑定");
+                            window.location.href = "uploadJob.html";
+                            break;
+                        default :
+                            alert(data.msg);
+                            break;
+                    }
+                }else {
+                    document.getElementById("company").value=data.company;
+                    document.getElementById("jobName").value=data.jobName;
+                    document.getElementById("className").value=data.className;
+                    document.getElementById("stuName").value=data.stuName;
+
+                }
+            },
+            error: function() {
+                alert("与服务器连接断开！");
+            }
+        });
+    });
+    document.getElementById("Jobupdate").onclick=function() {
+
+        var user = $("#stuuserName").val();
+        var company = $("#company").val();
+        var jobName = $("#jobName").val();
+        var className = $("#className").val();
+        var stuName = $("#stuName").val();
+        $.ajax({
+            type: "post",
+            url: 'http://localhost:8088/lhy/api/student/updateJob',
+            async: false,
+            dataType: 'json',
+            data:  {
+                "username": user,
+                "company": company,
+                "jobName": jobName,
+                "className": className,
+                "stuName": stuName
+
+            },
+            success: function(data) {
+                if (data.msg!=null){
+                    switch (data.msg) {
+                        case "error":
+                            alert("登录信息错乱，请重新登陆");
+                            localStorage.clear();
+                            window.location.href = "loginerror.html";
+                            break;
+                        case "unexist":
+                            alert("当前帐号没有绑定工作信息，请先绑定");
+                            window.location.href = "uploadJob.html";
+                            break;
+                        default :
+                            alert(data.msg);
+                            break;
+                    }
+                }else {
+                    window.location.href = "student.html";
+                }
+            },
+            error: function() {
+                alert("与服务器连接断开！");
+            }
+        });
+    };
+
+
+</script>
