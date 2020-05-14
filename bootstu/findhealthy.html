@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>学生账号管理</title>
+    <title>教师账号</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/line.css" rel="stylesheet">
     <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet">
@@ -17,86 +17,37 @@
 
 <form class="navbar-form navbar-left" role="search">
     <div class="form-group">
-        <input id="searchusername" type="text" class="form-control" placeholder="输入班级名称"/>
+        <input id="searchusername" type="text" class="form-control" placeholder="输入学号"/>
     </div>
     <button type="button" class="btn btn-default btn-sm" onclick="savesearch(0,10)">
         <span class="glyphicon glyphicon-search" aria-hidden="true"></span>查询
     </button>
-    <button type="button" class="btn btn-default btn-sm" href="#saveinput" data-toggle="modal">
-        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
-    </button>
-    <div class="modal fade bs-example-modal-lg" id="saveinput" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title" id="myModalLabel">
-                        请输入新增的信息
-                    </h4>
-                </div>
-                <div class="modal-body">
-                    学院:<input class="form-control" id="college" type="text" placeholder="请输入学院" /><br/>
-                    方向:<input class="form-control" id="department" type="text" placeholder="请输入方向"/><br/>
-                    班级:<input class="form-control" id="classname" type="text" placeholder="请输入班级"/><br/>
-                    辅导员工号:<input class="form-control" id="instructor" type="text" placeholder="请输入辅导员"/><br/>
-                </div>
-                <div id="choseTips" class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="register()">确认</button> <button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <button type="button" class="btn btn-default btn-sm" onclick="saveupdate()">
-        <span class="glyphicon glyphicon-pencil" aria-hidden="true" ></span>修改
-    </button>
-    <div class="modal fade bs-example-modal-lg" id="update" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title" id="supdateModalLabel">
-                        请输入修改的信息
-                    </h4>
-                </div>
-                <div class="modal-body">
-                    <input class="form-control" id="college2" type="hidden"/>
-                    <input class="form-control" id="department2" type="hidden"/>
-                    <input class="form-control" id="classname2" type="hidden" />
-                    辅导员工号:<input class="form-control" id="instructor2" type="text"/>
-                </div>
-                <div id="supdatechoseTips" class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="updateMessage()">确认</button> <button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
 </form>
 
-<table class="table table-bordered table-hover" id="mytable">
+<table class="table table-bordered table-hover" id="mytable" style="word-break:break-all;">
     <thead>
-    <tr class="danger">
-        <th>编号</th>
-        <th>学院</th>
-        <th>方向</th>
-        <th>班级</th>
-        <th>辅导员</th>
+    <tr class="success">
+        <th>学号</th>
+        <th>位置情况</th>
+        <th>健康状态</th>
+        <th>体温状态</th>
+        <th>是否接触病人</th>
+        <th>上传时间</th>
     </tr>
     </thead>
     <tbody>
-
 </table>
-
 
 <nav>
     <ul class="pagination pagination-sm">
                         <li id="firstPage"><a href="###">首页</a></li>
                         <li id="prePage"><a href="###" >上一页</a></li>
-                        <li class="disabled"><span id="thisPage"></span></li>
+        <li class="disabled"><span id="thisPage"></span></li>
                         <li id="nextPage"><a href="###">下一页</a></li>
                         <li id="lastPage"><a href="###" >尾页</a></li>
     </ul>
 </nav>
+
 </body>
 <script>
     $(function () {
@@ -154,7 +105,7 @@
     */
     function goPage(page,psize,num,totalPage){
         $("#thisPage").text(page + 1);
-        if (totalPage -1 <= 0){
+        if (totalPage -1 == 0){
             document.getElementById("firstPage").className="disabled";
             document.getElementById("prePage").className="disabled";
             document.getElementById("lastPage").className="disabled";
@@ -234,130 +185,42 @@
 
 
 
-    function register() {
-        var college = $('#college').val();
-        var department = $('#department').val();
-        var classname = $('#classname').val();
-        var instructor = $('#instructor').val();
-        var page = $('#thisPage').text();
-        $.ajax({
-            type: "post",
-            url: 'http://edu.nyist.herry:8088/lhy/api/admin/insertClasses',
-            async: false,
-            dataType: 'json',
-            data:  {
-                "college": college,
-                "department": department,
-                "classname": classname,
-                "instructor": instructor
-            },
-            success: function(data) {
-                if (data.msg!=null){
-                    alert(data.msg);
-                }else {
-                    alert("添加成功!");
-                }
-                savesearch(page.valueOf()-1,10);
-            },
-            error: function() {
-                alert("与服务器连接断开！");
-            }
-        });
-    }
-
-
     function savesearch(page,size) {
-        var classname = $('#searchusername').val();
+        var username = $('#searchusername').val();
+        var teacheruser = localStorage.getItem("user");
         $.ajax({
             type: "post",
-            url: 'http://edu.nyist.herry:8088/lhy/api/admin/findClasses',
+            url: 'http://edu.nyist.herry:8088/lhy/api/teacher/findHealthy',
             async: false,
             dataType: 'json',
             data:  {
-                "classname": classname,
+                "stuname": username,
+                "teacheruser":teacheruser,
                 "page":page,
                 "size":size
             },
             success: function(data) {
-                var obj=eval(data.content);
-                var tbody=$('<tbody></tbody>');
-                $(obj).each(function (index){
-                    var val=obj[index];
-                    var tr=$('<tr></tr>');
-                    tr.append('<td>'+ val.id + '</td>' + '<td>'+ val.college + '</td>' +'<td>'+ val.department + '</td>'+'<td>'+ val.className + '</td>'+'<td>'+val.instructor+'</td>');
-                    tbody.append(tr);
-                });
-                $('#mytable tbody').replaceWith(tbody);
-                initTableCheckbox();
-                goPage(data.number,data.size,data.totalElements,data.totalPages);
+                if (data.msg!=null){
+                    alert(data.msg);
+                } else {
+                    var obj=eval(data.content);
+                    var tbody=$('<tbody></tbody>');
+                    $(obj).each(function (index){
+                        var val=obj[index];
+                        var tr=$('<tr></tr>');
+                        tr.append('<td>'+ val.stuName + '</td>' +'<td>'+ val.place + '</td>'+'<td>'+ val.status + '</td>'
+                            +'<td>'+ val.temperature + '</td>'+'<td>'+ val.contact + '</td>'+'<td>'+ val.date + '</td>');
+                        tbody.append(tr);
+                    });
+                    $('#mytable tbody').replaceWith(tbody);
+                    initTableCheckbox();
+                    goPage(data.number,data.size,data.totalElements,data.totalPages);
+                }
             },
             error: function() {
                 alert("与服务器连接断开！");
             }
         });
-    };
-    function saveupdate() {
-        var users=[];
-        var user;
-        $("input:checked").each(function(){
-            if ($(this).attr("name")=="checkAll") {
-                return true;
-            }
-            var id = $(this).parents('tr').children().eq(1).html();
-            var college = $(this).parents('tr').children().eq(2).html();
-            var department = $(this).parents('tr').children().eq(3).html();
-            var classname = $(this).parents('tr').children().eq(4).html();
-            var instructor = $(this).parents('tr').children().eq(5).html();
-
-            user = {
-                "id":id,
-                "college":college,
-                "department":department,
-                "classname":classname,
-                "instructor":instructor
-            }
-            users.push(user)
-        });
-        if (users.length == 0 ||users.length >1) {
-            alert("请选择一项！");
-        }else {
-            $("#college2").val(users[0].college);
-            $("#department2").val(users[0].department);
-            $("#instructor2").val(users[0].instructor);
-            $("#classname2").val(users[0].classname);
-            $('#update').modal('show');
-        }
-    };
-    function updateMessage() {
-        var college2 =$("#college2").val();
-        var department2=$("#department2").val();
-        var instructor2=$("#instructor2").val();
-        var classname2=$("#classname2").val();
-        var page = $('#thisPage').text();
-
-            $.ajax({
-                type: "post",
-                url: 'http://edu.nyist.herry:8088/lhy/api/admin/updateClasses',
-                async: false,
-                dataType: 'json',
-                data:  {
-                    "college": college2,
-                    "department": department2,
-                    "instructor": instructor2,
-                    "classname":classname2
-                },
-                success: function(data) {
-                    if (data.msg!=null){
-                        alert(data.msg);
-                    }else {
-                        alert("修改成功!");
-                    }
-                    savesearch(page.valueOf()-1,10);
-                },error: function () {
-                    alert("与服务器连接失败！")
-                }
-            });
-
     };
 </script>
 </html>

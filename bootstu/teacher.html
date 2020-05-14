@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>教师账号</title>
+    <title>教师帐号</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/line.css" rel="stylesheet">
     <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet">
@@ -40,9 +40,13 @@
                 <li id="taskInfo">
                     <a href="#">任务执行情况</a>
                 </li>
+                <li id="findhealthy">
+                    <a href="#">查看学生健康情况</a>
+                </li>
                 <li id="updateteacherInfo">
                     <a href="#">更新个人信息</a>
                 </li>
+
                 <li class="myUser">
                     <a id="modal-920444" href="#modal-container-920444" role="button" class="btn" data-toggle="modal">
                         <span id="myuser"></span>
@@ -94,7 +98,7 @@
         $('#Content-right').load('thisClass.html');
         $.ajax({
             type: "post",
-            url: 'http://localhost:8088/lhy/api/teacher/findByUserName',
+            url: 'http://edu.nyist.herry:8088/lhy/api/teacher/findByUserName',
             async: false,
             dataType: 'json',
             data:  {
@@ -152,6 +156,9 @@
     };
     document.getElementById("updateteacherInfo").onclick=function() {
         $('#Content-right').load('updateteacherInfo.html');
+    };
+    document.getElementById("findhealthy").onclick=function() {
+        $('#Content-right').load('findhealthy.html');
     };
 
 </script>

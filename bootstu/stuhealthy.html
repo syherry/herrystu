@@ -15,42 +15,68 @@
 </head>
 
 <body>
-        <form class="form-horizontal" role="form">
-            <div class="form-group">
-                <label for="company" class="col-sm-2 control-label" >公司</label>
-                <div class="col-sm-6">
-                    <span class="glyphicon  form-control-feedback"></span>
-                    <input type="text" class="form-control" id="company" placeholder="请输入公司名称"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="jobName" class="col-sm-2 control-label" >岗位</label>
-                <div class="col-sm-6">
-                    <span class="glyphicon  form-control-feedback"></span>
-                    <input type="text" class="form-control" id="jobName" placeholder="请输入岗位名称"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="className" class="col-sm-2 control-label" >班级</label>
-                <div class="col-sm-6">
-                    <span class="glyphicon  form-control-feedback"></span>
-                    <input type="text" class="form-control" id="className" placeholder="请输入中文的班级名称(如:云计算三班)"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="stuName" class="col-sm-2 control-label" >姓名</label>
-                <div class="col-sm-6">
-                    <span class="glyphicon  form-control-feedback"></span>
-                    <input type="text" class="form-control" id="stuName" placeholder="请输入您的姓名"/>
-                </div>
-            </div>
-            <input type="hidden" class="form-control" id="stuuserName" placeholder="stuuserName"/>
-            <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                    <button type="button" class="btn btn-default"  id="Jobupdate">确认</button>
-                </div>
-            </div>
-        </form>
+
+    <form class="navbar-form navbar-left" role="form">
+        <div class="form-group">
+            公司:
+            <input type="text" class="form-control" id="company" placeholder="请输入公司名称" readonly="readonly"/>
+            岗位:
+            <input type="text" class="form-control" id="jobName" placeholder="请输入岗位名称" readonly="readonly"/>
+            班级:
+            <input type="text" class="form-control" id="className" placeholder="请输入中文的班级名称(如:云计算三班)" readonly="readonly"/>
+            姓名:
+            <input type="text" class="form-control" id="stuName" placeholder="请输入您的姓名" readonly="readonly"/>
+            <input type="hidden" class="form-control" id="stuuserName" placeholder="stuuserName" />
+            <button type="button" class="btn btn-default"  id="Jobupdate">确认</button>
+        </div>
+    </form>
+    <table class="table table-bordered table-hover" id="mytable">
+        <thead>
+        <tr class="success">
+            <th>位置情况</th>
+            <th>健康状态</th>
+            <th>体温状态</th>
+            <th>是否接触病人</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th>
+                <select id="place" class="form-control">
+                    <option value="1">在家</option>
+                    <option value="2">在校</option>
+                    <option value="3">在外实习</option>
+                    <option value="4">其他</option>
+                </select>
+            </th>
+            <th>
+                <select id="status" class="form-control">
+                    <option value="1">良好</option>
+                    <option value="2">发烧,咳嗽,乏力</option>
+                    <option value="3">被隔离</option>
+                    <option value="4">其他</option>
+                </select>
+            </th>
+            <th>
+                <select id="temperature" class="form-control">
+                    <option value="1">正常</option>
+                    <option value="2">低烧</option>
+                    <option value="3">高烧</option>
+                    <option value="4">其他</option>
+                </select>
+            </th>
+            <th>
+                <select id="contact" class="form-control">
+                    <option value="1">无相关情况</option>
+                    <option value="2">接触疑似病例</option>
+                    <option value="3">接触过确诊病例</option>
+                    <option value="4">其他</option>
+                </select>
+            </th>
+        </tr>
+        </tbody>
+        <tbody>
+    </table>
 
 </body>
 <script>
@@ -97,22 +123,23 @@
     document.getElementById("Jobupdate").onclick=function() {
 
         var user = $("#stuuserName").val();
-        var company = $("#company").val();
-        var jobName = $("#jobName").val();
+        var place = $("#place").val();
+        var status = $("#status").val();
+        var temperature = $("#temperature").val();
+        var contact = $("#contact").val();
         var className = $("#className").val();
-        var stuName = $("#stuName").val();
         $.ajax({
             type: "post",
-            url: 'http://edu.nyist.herry:8088/lhy/api/student/updateJob',
+            url: 'http://edu.nyist.herry:8088/lhy/api/student/stuhealthy',
             async: false,
             dataType: 'json',
             data:  {
                 "username": user,
-                "company": company,
-                "jobName": jobName,
-                "className": className,
-                "stuName": stuName
-
+                "place":place,
+                "status":status,
+                "temperature":temperature,
+                "contact":contact,
+                "className":className
             },
             success: function(data) {
                 if (data.msg!=null){
@@ -131,7 +158,7 @@
                             break;
                     }
                 }else {
-                    window.location.href = "student.html";
+                    alert("健康信息上报成功!")
                 }
             },
             error: function() {

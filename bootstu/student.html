@@ -37,6 +37,9 @@
                 <li id="clock">
                     <a href="#">本周打卡</a>
                 </li>
+                <li id="healthy">
+                    <a href="#">健康信息调查</a>
+                </li>
                 <li class="myUser">
 
                     <a id="modal-920444" href="#modal-container-920444" role="button" class="btn" data-toggle="modal">
@@ -89,7 +92,7 @@
         $('#Content-right').load('thisTask.html');
         $.ajax({
             type: "post",
-            url: 'http://localhost:8088/lhy/api/student/findByUserName',
+            url: 'http://edu.nyist.herry:8088/lhy/api/student/findByUserName',
             async: false,
             dataType: 'json',
             data:  {
@@ -134,6 +137,10 @@
     document.getElementById("clock").onclick=function() {
 
         $('#Content-right').load('uploadspace.html');
+    };
+    document.getElementById("healthy").onclick=function() {
+
+        $('#Content-right').load('stuhealthy.html');
     };
 
 

@@ -6,16 +6,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
-import stu.monitor.stumonitor.pojo.Job;
-import stu.monitor.stumonitor.pojo.MyErrors;
-import stu.monitor.stumonitor.pojo.Tasks;
-import stu.monitor.stumonitor.pojo.Teacher;
-import stu.monitor.stumonitor.service.ClassInfoService;
-import stu.monitor.stumonitor.service.JobService;
-import stu.monitor.stumonitor.service.LoginService;
-import stu.monitor.stumonitor.service.TaskService;
+import stu.monitor.stumonitor.pojo.*;
+import stu.monitor.stumonitor.service.*;
 
 import javax.annotation.Resource;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
 @RestController
@@ -29,6 +26,8 @@ public class StudentManageController {
     private LoginService loginService;
     @Resource
     private TaskService taskService;
+    @Resource
+    private HealthyService healthyService;
     @RequestMapping("/api/student/uploadJob")
     @ResponseBody
     public JSON uploadJob(@RequestParam Map<String,Object> params){
@@ -204,5 +203,51 @@ public class StudentManageController {
         taskService.save(tasks);
         jsonObject = (JSONObject) JSON.toJSON(tasks);
         return jsonObject;
+    }
+    @RequestMapping("/api/student/stuhealthy")
+    @ResponseBody
+    public JSON stuhealthy(@RequestParam Map<String,Object> params){
+        String stuname = params.get("username") == null ? "" : params.get("username").toString();
+        String place = params.get("place") == null ? "" : params.get("place").toString();
+        String status = params.get("status") == null ? "" : params.get("status").toString();
+        String temperature = params.get("temperature") == null ? "" : params.get("temperature").toString();
+        String contact = params.get("contact") == null ? "" : params.get("contact").toString();
+        String className = params.get("className") == null ? "" : params.get("className").toString();
+        Healthy healthy = healthyService.findByStuName(stuname);
+        if (healthy == null){
+            healthy = new Healthy();
+            healthy.setStuName(stuname);
+        }
+        Date date=new Date();
+        DateFormat simpleDateFormat= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String punchTime = simpleDateFormat.format(date);
+        healthy.setDate(punchTime);
+        healthy.setClassName(className);
+        switch (place){
+            case "1":healthy.setPlace("在家");break;
+            case "2":healthy.setPlace("在校");break;
+            case "3":healthy.setPlace("在外实习");break;
+            case "4":healthy.setPlace("其他");break;
+        }
+        switch (status){
+            case "1":healthy.setStatus("良好");break;
+            case "2":healthy.setStatus("发烧,咳嗽,乏力");break;
+            case "3":healthy.setStatus("被隔离");break;
+            case "4":healthy.setStatus("其他");break;
+        }
+        switch (temperature){
+            case "1":healthy.setTemperature("正常");break;
+            case "2":healthy.setTemperature("低烧");break;
+            case "3":healthy.setTemperature("高烧");break;
+            case "4":healthy.setTemperature("其他");break;
+        }
+        switch (contact){
+            case "1":healthy.setContact("无相关情况");break;
+            case "2":healthy.setContact("接触疑似病例");break;
+            case "3":healthy.setContact("接触过确诊病例");break;
+            case "4":healthy.setContact("其他");break;
+        }
+        healthyService.save(healthy);
+        return (JSON) JSONObject.toJSON(healthy);
     }
 }

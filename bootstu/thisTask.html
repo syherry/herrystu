@@ -67,7 +67,7 @@
         var username = localStorage.getItem("user");
         $.ajax({
             type: "post",
-            url: 'http://localhost:8088/lhy/api/student/findTasks',
+            url: 'http://edu.nyist.herry:8088/lhy/api/student/findTasks',
             async: false,
             dataType: 'json',
             data: {
@@ -104,7 +104,7 @@
         var username = localStorage.getItem("user");
         $.ajax({
             type: "post",
-            url: 'http://localhost:8088/lhy/api/student/updateTasks',
+            url: 'http://edu.nyist.herry:8088/lhy/api/student/updateTasks',
             async: false,
             dataType: 'json',
             data:  {
@@ -138,7 +138,7 @@
         var username = localStorage.getItem("user");
         $.ajax({
             type: "post",
-            url: 'http://localhost:8088/lhy/api/student/finalTasks',
+            url: 'http://edu.nyist.herry:8088/lhy/api/student/finalTasks',
             async: false,
             dataType: 'json',
             data:  {

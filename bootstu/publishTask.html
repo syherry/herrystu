@@ -232,7 +232,7 @@
         var teacheruser = localStorage.getItem("user");
         $.ajax({
             type: "post",
-            url: 'http://localhost:8088/lhy/api/teacher/findStudent',
+            url: 'http://edu.nyist.herry:8088/lhy/api/teacher/findStudent',
             async: false,
             dataType: 'json',
             data:  {
@@ -295,7 +295,7 @@
         var tasksinfo = $('#tasksinfo').val();
         $.ajax({
             type: "post",
-            url: 'http://localhost:8088/lhy/api/teacher/sendTaskAll',
+            url: 'http://edu.nyist.herry:8088/lhy/api/teacher/sendTaskAll',
             async: false,
             dataType: 'json',
             data:  {
@@ -340,7 +340,7 @@
         var taskInfo = $('#taskinfo').val();
         $.ajax({
             type: "post",
-            url: 'http://localhost:8088/lhy/api/teacher/sendTask',
+            url: 'http://edu.nyist.herry:8088/lhy/api/teacher/sendTask',
             async: false,
             dataType: 'json',
             data:  {

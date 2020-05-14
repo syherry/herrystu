@@ -10,7 +10,7 @@ spring:
         hbm2ddl:
           auto: update
         format_sql: true
-    show-sql: true
+    show-sql: false
 server:
   port: 8088
   servlet:

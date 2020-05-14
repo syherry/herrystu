@@ -52,7 +52,7 @@
         $("#teauserName").val(user);
         $.ajax({
             type: "post",
-            url: 'http://localhost:8088/lhy/api/teacher/findByUserName',
+            url: 'http://edu.nyist.herry:8088/lhy/api/teacher/findByUserName',
             async: false,
             dataType: 'json',
             data:  {
@@ -97,7 +97,7 @@
         var teaName = $("#teaName").val();
         $.ajax({
             type: "post",
-            url: 'http://localhost:8088/lhy/api/teacher/updateClass',
+            url: 'http://edu.nyist.herry:8088/lhy/api/teacher/updateClass',
             async: false,
             dataType: 'json',
             data:  {

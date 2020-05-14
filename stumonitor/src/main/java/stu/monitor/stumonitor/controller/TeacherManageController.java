@@ -29,6 +29,8 @@ public class TeacherManageController {
 
     @Resource
     private JobService jobService;
+    @Resource
+    private HealthyService healthyService;
     @RequestMapping("/api/teacher/findByUserName")
     @ResponseBody
     public JSON findByUserName(@RequestParam Map<String,Object> params){
@@ -299,7 +301,29 @@ public class TeacherManageController {
                 jsonObject = (JSONObject) JSON.toJSON(finallly);
                 return jsonObject;
         }
-
         return (JSONObject) JSON.toJSON(new MyErrors("任务状态查询异常"));
     }
+    @RequestMapping("/api/teacher/findHealthy")
+    @ResponseBody
+    public JSON findHealthy(@RequestParam Map<String,Object> params){
+        int page = params.get("page") == null ? 0 : Integer.valueOf(params.get("page").toString());
+        int size = params.get("size") == null ? 10 : Integer.valueOf(params.get("size").toString());
+        String stuname = params.get("stuname") == null ? "" : params.get("stuname").toString();
+        String teacheruser = params.get("teacheruser") == null ? "" : params.get("teacheruser").toString();
+        Pageable pageable = PageRequest.of(page,size);
+        Teacher teacher = teacherService.findByUserName(teacheruser);
+        if (teacher == null||teacher.getClassName().equals("")||teacher.getClassName() == null){
+            return (JSONObject) JSON.toJSON(new MyErrors("查询出现异常，请联系管理员查看绑定班级信息"));
+        }
+        if (stuname.equals("")){
+            Page<Healthy> finallly = healthyService.findHealthiesByClassNameLike(pageable,teacher.getClassName());
+            return (JSONObject) JSON.toJSON(finallly);
+        }else{
+            stuname = "%" + stuname + "%";
+            Page<Healthy> finallly = healthyService.findHealthiesByClassNameAndStuNameLike(pageable,teacher.getClassName(),stuname);
+            return (JSONObject) JSON.toJSON(finallly);
+        }
+    }
+
+
 }
