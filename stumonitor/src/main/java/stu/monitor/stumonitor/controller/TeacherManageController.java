@@ -324,6 +324,18 @@ public class TeacherManageController {
             return (JSONObject) JSON.toJSON(finallly);
         }
     }
-
+    @RequestMapping("/api/teacher/findByUserNamefill")
+    @ResponseBody
+    public JSON findByUserNamefill(@RequestParam Map<String,Object> params){
+        String username = params.get("username") == null ? "" : params.get("username").toString();
+        if(username.equals("")){
+            return (JSONObject) JSON.toJSON(new MyErrors("error"));
+        }
+        Teacher teacher = teacherService.findByUserName(username);
+        if (teacher == null){
+            return (JSONObject) JSON.toJSON(new MyErrors("unexist"));
+        }
+        return (JSON) JSON.toJSON(teacher);
+    }
 
 }
