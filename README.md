@@ -1,2 +1,23 @@
-Design and Implementation of Graduate internship tracking and data visualization system Based on SpringBoot Software Engineering Major Li Haiyang
-  At present, most graduates still choose to do internships before graduation.However, certain obstacles may be caused by the uncertainty of the internship place, the instability of internship work and the disunity of work content during the management of the fresh graduates’ internship .But the fresh graduates have just finished their campus lives and stepped into the society, facing of the sudden acceleration of the pace of life, the pressure of living and temptations from the external conditions are likely to pose a threat to their psychological and physical condition, and even their personal security.So, the tracking and management system designed for graduates can facilitate the school to conduct unified management and guidance, such as internship situation, the life state, job content, the learning experience , and to ensure that every graduates’ work and life  during the internship can be protected by the school. Besides, the school can also clearly see each student’s growth and progress during the internship.The system can perform different operations for the two roles of teacher and student by setting up the counselor management end and the student end .The function of managing a whole class is designed for the counselor management end. The key function of student end is that the report and feedback of internship work can be submitted to counselors in time and tasks assigned by the instructor at each stage can be received by students accurately.Java language is used throughout the project and the language environment is JDK1.8. Use the IntelliJ IDEA to encode throughout the project, and Nginx + Tomcat service architecture is selected to realize the separation of front and rear end. The Bootstrap framework is used as the front-end data display framework, and the Spring Boot framework is used to deal with the back-end business in real time. The Spring Boot JPA is used to interact with the database in the back-end, and the specific functions are realized by data processing in the Mysql database.
+Design and Implementation of Graduate internship tracking
+and data visualization system Based on SpringBoot
+Software Engineering Major Li Haiyang
+Abstract: Most of the current graduates still choose to practice before
+graduation.However, due to the uncertainty of the internship place, the instability of
+internship work and the disunity of work content of most of the fresh graduates,It may cause
+some obstacles to the management of the internship of the graduates.The new graduates have
+stepped out of the campus initially, just entered the society, facing the accelerated pace of life,
+the pressure of living and the external conditions full of temptation may threaten the
+psychological, physiological and even personal safety of the graduates.So,The tracking and
+management system designed for the graduates can facilitate the University's practice, living
+conditions, work content and learning spirit .Ensure that every fresh graduate's work and life
+during the internship can be protected by our school.The system can perform different
+operations on the two roles of teacher and student by setting up two parts of counselor
+management end and student end.Design the overall management function of the class for the
+counselor.The key function of student end and lies in the report of practice work submit to
+teacher.Counselors can regularly grasp students' internships,And accurately the task of
+accept each stage .Java language is used throughout the project, and the language environment
+is JDK1.8.Encoding with IntelliJ idea.Choose nginx + Tomcat service architecture to realize
+front and back end separation.Bootstrap framework as the front-end data display
+framework.Springboot as a back-end business processing framework.Realize specific
+functions through data processing in MySQL database.
+Key words:Practice; Data management;Web system;JPA
